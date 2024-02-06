@@ -1,0 +1,206 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: 'VNet Service'
+  description: 'VNet Service'
+  contact:
+    name: Keshav Bhardwaj
+    email: kkeshav025@gmail.com
+servers:
+  - url: 'http://{hostname}:{port}/api/v1'
+    variables:
+      hostname:
+        default: localhost
+      port:
+        enum:
+          - '8080'
+        default: '8080'
+security:
+  - bearerAuth: []
+paths:
+
+  /build/vnet:
+    get:
+      operationId: ListVNet
+      parameters:
+        - in: query
+          name: platform
+          schema:
+            type: string
+          required: false
+          description: todo
+        - in: query
+          name: status
+          schema:
+            type: string
+          required: false
+          description: todo
+      responses:
+        '200':
+          description: 'Get VNet Request List'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VNet'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: CreateVNet
+      requestBody:
+        description: 'problem remediationrequest creation'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VNet'
+      responses:
+        '204':
+          description: 'Create VNet'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /build/vnet/{buildVNetId}:
+    get:
+      operationId: GetVNet
+      parameters:
+        - in: path
+          name: buildVNetId
+          schema:
+            type: integer
+            format: int32
+
+          required: true
+          description: todo
+      responses:
+        '200':
+          description: 'Get VNet Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VNet'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: RetryVNet
+      parameters:
+        - in: path
+          name: buildVNetId
+          schema:
+            type: integer
+            format: int32
+
+          required: true
+          description: todo
+      requestBody:
+        # description: 'Update VNet Request'
+        # required: true
+        # content:
+        #   application/json:
+        #     schema:
+        #       $ref: '#/components/schemas/VNet'
+      responses:
+        '204':
+          description: 'Update VNet Response'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: DeleteVNet
+      parameters:
+        - in: path
+          name: buildVNetId
+          schema:
+            type: integer
+            format: int32
+          required: true
+          description: todo
+        # - in: path
+        #   name: operationOrchestratorName
+        #   schema:
+        #     type: string
+        #     example: 'pr1'
+        #   required: true
+        #   description: todo
+      responses:
+        '204':
+          description: 'Delete VNet Request'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+ 
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+
+
+    VNet:
+      type: object
+      # required: [Application]
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 7
+        name:
+          type: string
+          example: 'Paroll_dc64_prod'
+        createdAt:
+          type: string
+          example: '10-12-2021'
+        cidr:
+          type: string
+          example: "10.1.0.0/16"
+        platform:
+          type: string
+          example: "azure"
+        location:
+          type: string
+          example: "southindia"
+        vnetId:
+          type: integer
+          format: int32
+          example: 6
+        status:
+          type: string
+          example: "completed"
+        
+
+  
+
+  
+ 
+    Error:
+      type: object
+      required:
+        - slug
+        - message
+      properties:
+        slug:
+          type: string
+        message:
+          type: string
+
