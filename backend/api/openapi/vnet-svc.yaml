@@ -159,7 +159,7 @@ components:
 
     VNet:
       type: object
-      # required: [Application]
+      
       properties:
         id:
           type: integer
@@ -167,7 +167,7 @@ components:
           example: 7
         name:
           type: string
-          example: 'Paroll_dc64_prod'
+          example: 'testvnet'
         createdAt:
           type: string
           example: '10-12-2021'

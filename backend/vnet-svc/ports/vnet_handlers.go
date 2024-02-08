@@ -16,6 +16,8 @@ func (h HttpServer) CreateVNet(w http.ResponseWriter, r *http.Request) {
 		httperr.BadRequest("invalid-request", err, w, r)
 		return
 	}
+	location := "southindia"
+	vnet.Location = &location
 	obj := domain.VNet{}
 	err := h.ExchangeStructs(vnet, &obj)
 	if err != nil {
@@ -41,6 +43,7 @@ func (h HttpServer) RetryVNet(w http.ResponseWriter, r *http.Request, vnetID int
 	// 	httperr.BadRequest("invalid-request", err, w, r)
 	// 	return
 	// }
+
 	vnet, err := h.buildSVC.Queries.GetVNet.Handle(r.Context(), vnetID)
 	if err != nil {
 		logrus.Errorf("error getting vnet: %v", err)
